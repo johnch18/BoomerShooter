@@ -6,11 +6,9 @@ public class CommonProxy {
 
     // preInit "Run before anything else. Read your config, create blocks, items,
     // etc, and register them with the GameRegistry."
-    public void preInit(FMLPreInitializationEvent event) 	{
+    public void preInit(FMLPreInitializationEvent event) {
         Config.syncronizeConfiguration(event.getSuggestedConfigurationFile());
-
-        BoomerMod.info(Config.greeting);
-        BoomerMod.info("I am " + Tags.MODNAME + " at version " + Tags.VERSION + " and group name " + Tags.GROUPNAME);
+        BoomerMod.items.registerItems();
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes."
