@@ -1,0 +1,16 @@
+[
+    {
+      "modid": "${modId}",
+      "name": "${modName}",
+      "description": "Fun with classic guns",
+      "version": "${modVersion}",
+      "mcversion": "${minecraftVersion}",
+      "url": "https://github.com/johnch18/BoomerShooter",
+      "updateUrl": "",
+      "authorList": ["johnch18"],
+      "credits": "",
+      "logoFile": "",
+      "screenshots": [],
+      "dependencies": []
+    }
+]
