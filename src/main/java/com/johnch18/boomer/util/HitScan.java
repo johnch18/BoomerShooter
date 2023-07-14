@@ -62,7 +62,9 @@ public class HitScan {
     @SuppressWarnings("rawtypes")
     public boolean singleMarch() {
         Vec3 vec3 = getRay().addVector(base.xCoord, base.yCoord, base.zCoord);
-        world.spawnParticle("lava", vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.0f, 0.0f, 0.0f);
+        if (count % 3 == 0 && count > 2) {
+            world.spawnParticle("smoke", vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.0f, 0.0f, 0.0f);
+        }
         List entities = world.getEntitiesWithinAABBExcludingEntity(player, shooter.getHitbox(vec3));
         for (Object o : entities) {
             if (!(o instanceof EntityLivingBase)) {

@@ -52,7 +52,7 @@ public class Shotgun extends Shooter<ShotgunShell> {
     }
 
     public HitScan getHitScan(EntityPlayer player, World world) {
-        Vec3 adj = getRandomMotionFromPlayerLook(player, 1.5f);
+        Vec3 adj = getRandomMotionFromPlayerLook(player, 15.0f);
         return new HitScan(this, player, world, adj.xCoord, adj.yCoord, adj.zCoord);
     }
 
