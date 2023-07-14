@@ -5,6 +5,7 @@ import net.minecraftforge.common.config.Property;
 
 import java.io.File;
 
+@SuppressWarnings("ALL")
 public class Config {
 
     public static String greeting = Defaults.greeting;

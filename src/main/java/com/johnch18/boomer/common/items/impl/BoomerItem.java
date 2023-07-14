@@ -7,9 +7,12 @@ import net.minecraft.item.Item;
 
 import javax.annotation.Nonnull;
 
+/**
+ *
+ */
 public abstract class BoomerItem extends Item implements IBoomerItem {
 
-    public BoomerItem() {
+    BoomerItem() {
         setCreativeTab(BoomerMod.tab);
         setUnlocalizedName(getID());
         setTextureName(getFullID());

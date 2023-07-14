@@ -1,9 +1,17 @@
 package com.johnch18.boomer;
 
-import cpw.mods.fml.common.event.*;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
+import cpw.mods.fml.common.event.FMLServerStartedEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
 
+@SuppressWarnings("ALL")
 public class ClientProxy extends CommonProxy {
 
     // preInit "Run before anything else. Read your config, create blocks, items,

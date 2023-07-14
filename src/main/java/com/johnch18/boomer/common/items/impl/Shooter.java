@@ -16,6 +16,9 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @param <T> Ammo type
+ */
 public abstract class Shooter<T extends IAmmo> extends BoomerItem implements IShooter<T> {
 
     private static final String TAG_FIRE_COOLDOWN = "fire";
@@ -24,7 +27,11 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
 
     private final Random rand = new Random();
 
-    public Shooter(T ammo) {
+    /**
+     * @param ammo Ammo to use
+     */
+    @SuppressWarnings("ConstructorNotProtectedInAbstractClass")
+    public Shooter(final T ammo) {
         super();
         this.ammo = ammo;
     }
@@ -36,7 +43,7 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     }
 
     @Override
-    public boolean playerCanFire(ItemStack stack, EntityPlayer player) {
+    public boolean canPlayerFire(final ItemStack stack, final EntityPlayer player) {
         if (checkNBT(stack)) {
             return false;
         }
@@ -45,11 +52,10 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         }
         boolean found = false;
         ItemStack currentStack;
-        for (int i = player.inventory.mainInventory.length - 1; i >= 0; i--) {
+        for (int i = player.inventory.mainInventory.length - 1; 0 <= i; i--) {
             currentStack = player.inventory.mainInventory[i];
-            Item item = currentStack.getItem();
-            if (getAmmoType().isCorrectType(item)) {
-                IAmmo ammo = (IAmmo) item;
+            final Item item = currentStack.getItem();
+            if (ammo.isCorrectType(item)) {
                 if (ammo.canUse(currentStack)) {
                     found = true;
                     currentStack.setItemDamage(currentStack.getItemDamage() + ammo.getFireCost());
@@ -60,30 +66,33 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         return found;
     }
 
+    @Nonnull
     @Override
-    public AxisAlignedBB getHitbox(Vec3 vec) {
+    public AxisAlignedBB getHitbox(final Vec3 vec) {
         return getHitbox(vec.xCoord, vec.yCoord, vec.zCoord);
     }
 
+    @Nonnull
     @Override
     public Random getRand() {
         return rand;
     }
 
     @Override
-    public double getDoubleInRange(double x, double y) {
-        return x + (y - x) * getRand().nextDouble();
+    public double getDoubleInRange(final double low, final double high) {
+        return low + (high - low) * rand.nextDouble();
     }
 
+    @Nonnull
     @Override
-    public Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d) {
-        float pitch = (float) (player.rotationPitch + getDoubleInRange(-d, d));
-        float yaw = (float) (player.rotationYaw + getDoubleInRange(-d, d));
-        float f = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
-        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
-        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
-        float f3 = MathHelper.sin(-pitch * 0.017453292F);
-        return Vec3.createVectorHelper(f1 * f2, f3, f * f2);
+    public Vec3 getRandomMotionFromPlayerLook(final EntityPlayer player, final double variance) {
+        final double pitch = ((double) player.rotationPitch + getDoubleInRange(-variance, variance));
+        final double yaw =  ((double) player.rotationYaw + getDoubleInRange(-variance, variance));
+        final float f = MathHelper.cos((float) (-yaw * 0.017453292 - Math.PI));
+        final float f1 = MathHelper.sin((float) (-yaw * 0.017453292 - Math.PI));
+        final float f2 = -MathHelper.cos((float) (-pitch * 0.017453292));
+        final float f3 = MathHelper.sin((float) (-pitch * 0.017453292));
+        return Vec3.createVectorHelper((double) (f1 * f2), (double) f3, (double) (f * f2));
     }
 
     @Override
@@ -92,12 +101,12 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
-        if (!playerCanFire(stack, player)) {
+    public ItemStack onItemRightClick(final ItemStack stack, final World world, final EntityPlayer player) {
+        if (!canPlayerFire(stack, player)) {
             return stack;
         }
-        fireGun(player, world, player.posX, player.posY, player.posZ);
-        NBTTagCompound comp = stack.getTagCompound();
+        fireGun(player, world);
+        final NBTTagCompound comp = stack.getTagCompound();
         comp.setInteger(TAG_FIRE_COOLDOWN, getCooldown());
         stack.setTagCompound(comp);
         player.inventory.markDirty();
@@ -106,9 +115,9 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     }
 
     @Override
-    public void onUpdate(ItemStack stack, World world, Entity entity, int i1, boolean b1) {
+    public void onUpdate(final ItemStack stack, final World world, final Entity entity, final int i1, final boolean b1) {
         checkNBT(stack);
-        NBTTagCompound compound = stack.getTagCompound();
+        final NBTTagCompound compound = stack.getTagCompound();
         int cooldown = compound.getInteger(TAG_FIRE_COOLDOWN);
         if (cooldown > 0) {
             cooldown -= 1;
@@ -119,23 +128,23 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         stack.setTagCompound(compound);
     }
 
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings("unchecked")
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List lore, boolean b1) {
+    public void addInformation(final ItemStack stack, final EntityPlayer player, final List lore, final boolean b1) {
         checkNBT(stack);
-        int cooldown = stack.getTagCompound().getInteger(TAG_FIRE_COOLDOWN);
+        final int cooldown = stack.getTagCompound().getInteger(TAG_FIRE_COOLDOWN);
         lore.add(String.format("Cooldown: %d / %d", cooldown, getCooldown()));
     }
 
-    private static boolean checkNBT(ItemStack stack) {
+    private static boolean checkNBT(final ItemStack stack) {
         if (!stack.hasTagCompound()) {
             stack.setTagCompound(new NBTTagCompound());
         }
-        NBTTagCompound comp = stack.getTagCompound();
+        final NBTTagCompound comp = stack.getTagCompound();
         if (!comp.hasKey(TAG_FIRE_COOLDOWN)) {
             comp.setInteger(TAG_FIRE_COOLDOWN, 0);
         }
-        int cooldown = comp.getInteger(TAG_FIRE_COOLDOWN);
-        return cooldown > 0;
+        final int cooldown = comp.getInteger(TAG_FIRE_COOLDOWN);
+        return 0 < cooldown;
     }
 }

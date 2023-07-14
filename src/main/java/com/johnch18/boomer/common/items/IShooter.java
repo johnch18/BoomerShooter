@@ -9,29 +9,82 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
+/**
+ * @param <T>
+ */
 public interface IShooter<T extends IAmmo> {
 
+    /**
+     * @return Gets the ammo instance
+     */
+    @SuppressWarnings("unused")
     @Nonnull
     T getAmmoType();
 
-    boolean playerCanFire(ItemStack stack, EntityPlayer player);
+    /**
+     * @param stack Stack to check
+     * @param player Player to check
+     * @return Can fire?
+     */
+    boolean canPlayerFire(ItemStack stack, EntityPlayer player);
 
-    void fireGun(EntityPlayer player, World world, double x, double y, double z);
+    /**
+     * @param player Player firing
+     * @param world World fired in
+     */
+    void fireGun(EntityPlayer player, World world);
 
+    /**
+     * @return Range of weapon
+     */
     double getRange();
 
+    /**
+     * @return Cooldown in ticks
+     */
     int getCooldown();
 
+    /**
+     * @param vec Vector of dimensions
+     * @return Hitbox
+     */
+    @Nonnull
     AxisAlignedBB getHitbox(Vec3 vec);
 
+    /**
+     * @param x x range
+     * @param y y range
+     * @param z z range
+     * @return Hitbox
+     */
+    @Nonnull
     AxisAlignedBB getHitbox(double x, double y, double z);
 
+    /**
+     * @return Amount of damage to do this instance
+     */
     float getAttackDamage();
 
+    /**
+     * @return Random number generator
+     */
+    @SuppressWarnings("unused")
+    @Nonnull
     Random getRand();
 
-    double getDoubleInRange(double x, double y);
+    /**
+     * @param low lower bound
+     * @param high upper bound
+     * @return Random double
+     */
+    double getDoubleInRange(double low, double high);
 
-    Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d);
+    /**
+     * @param player Player to work from
+     * @param variance Amount of randomness to pitch and yaw
+     * @return Random vector
+     */
+    @Nonnull
+    Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, double variance);
 
 }

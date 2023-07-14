@@ -1,7 +1,12 @@
-package com.johnch18.boomer.common.items.impl;
+package com.johnch18.boomer.common.items.impl.doom.ammo;
+
+import com.johnch18.boomer.common.items.impl.Ammo;
 
 import javax.annotation.Nonnull;
 
+/**
+ *
+ */
 public class ShotgunShell extends Ammo {
     @Override
     public int getMaxCapacity() {

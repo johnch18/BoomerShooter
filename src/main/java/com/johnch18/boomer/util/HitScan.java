@@ -3,7 +3,6 @@ package com.johnch18.boomer.util;
 import com.johnch18.boomer.common.items.IShooter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.DamageSource;
@@ -12,76 +11,78 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+/**
+ *
+ */
 public class HitScan {
 
-    private static final float d = 0.25f;
+    private static final float substep = 0.25f;
     private final IShooter<?> shooter;
     private final Vec3 base, look;
     private final EntityPlayer player;
     private final World world;
-    private int count = 0;
-    private boolean dead = false;
+    private int count;
+    private boolean dead;
 
-    public HitScan(IShooter<?> shooter, EntityPlayer player, World world, double dX, double dY, double dZ) {
-        this(shooter, world, player, player.getPosition(1.0f).addVector(0.0f, !world.isRemote ? 1.62f : 0.0f, 0.0f), player.getLook(1.0f).addVector(dX, dY, dZ));
+    /**
+     * @param shooter Gun firing
+     * @param player Player firing
+     * @param world World fired in
+     * @param dX Bump to vector x
+     * @param dY Bump to vector y
+     * @param dZ Bump to vector z
+     */
+    public HitScan(final IShooter<?> shooter, final EntityPlayer player, final World world, final double dX, final double dY, final double dZ) {
+        this(shooter, world, player, player.getPosition(1.0f).addVector(0.0, world.isRemote ? 0.0 : 1.62, 0.0), player.getLook(1.0f).addVector(dX, dY, dZ));
     }
 
-    public HitScan(IShooter<?> shooter, World world, EntityPlayer player, Vec3 base, Vec3 look) {
+    private HitScan(final IShooter<?> shooter, final World world, final EntityPlayer player, final Vec3 base, final Vec3 look) {
         this.shooter = shooter;
         this.world = world;
         this.player = player;
         this.base = base;
         this.look = look;
+        count = 0;
+        dead = false;
     }
 
-    public IShooter<?> getShooter() {
+    IShooter<?> getShooter() {
         return shooter;
     }
 
-    public boolean isDead() {
+    boolean isDead() {
         return dead;
     }
 
-    public void step() {
+    private void step() {
         count += 1;
     }
 
-    public void march() {
-        Vec3 vec3;
-        while ((vec3 = getRay()).lengthVector() <= shooter.getRange() && !dead) {
-            if (singleMarch()) {
-                return;
-            }
-        }
-    }
-
-    public Vec3 getRay() {
-        return Vec3.createVectorHelper(look.xCoord * d * count, look.yCoord * d * count, look.zCoord * d * count);
+    Vec3 getRay() {
+        return Vec3.createVectorHelper(look.xCoord * substep * count, look.yCoord * substep * count, look.zCoord * substep * count);
     }
 
     @SuppressWarnings("rawtypes")
-    public boolean singleMarch() {
-        Vec3 vec3 = getRay().addVector(base.xCoord, base.yCoord, base.zCoord);
+    void singleMarch() {
+        final Vec3 vec3 = getRay().addVector(base.xCoord, base.yCoord, base.zCoord);
         if (count % 3 == 0 && count > 2) {
-            world.spawnParticle("smoke", vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.0f, 0.0f, 0.0f);
+            world.spawnParticle("smoke", vec3.xCoord, vec3.yCoord, vec3.zCoord, 0.0, 0.0, 0.0);
         }
-        List entities = world.getEntitiesWithinAABBExcludingEntity(player, shooter.getHitbox(vec3));
-        for (Object o : entities) {
-            if (!(o instanceof EntityLivingBase)) {
-                continue;
+        final List entities = world.getEntitiesWithinAABBExcludingEntity(player, shooter.getHitbox(vec3));
+        for (final Object o : entities) {
+            if (o instanceof EntityLivingBase) {
+                final EntityLivingBase living = (EntityLivingBase) o;
+                living.attackEntityFrom(DamageSource.causePlayerDamage(player), shooter.getAttackDamage());
+                dead = true;
+                return;
             }
-            EntityLivingBase living = (EntityLivingBase) o;
-            living.attackEntityFrom(DamageSource.causePlayerDamage(player), shooter.getAttackDamage());
-            dead = true;
-            return true;
         }
-        Block block = world.getBlock((int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
+        final Block block = world.getBlock((int) vec3.xCoord, (int) vec3.yCoord, (int) vec3.zCoord);
         if (block != null && block != Blocks.air) {
             dead = true;
-            return true;
+            return;
         }
         step();
-        return false;
     }
 
 }
