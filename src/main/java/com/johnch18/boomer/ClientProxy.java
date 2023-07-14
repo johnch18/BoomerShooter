@@ -1,6 +1,8 @@
 package com.johnch18.boomer;
 
 import cpw.mods.fml.common.event.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 
 public class ClientProxy extends CommonProxy {
 
@@ -39,5 +41,10 @@ public class ClientProxy extends CommonProxy {
 
     public void serverStopped(FMLServerStoppedEvent event) {
         super.serverStopped(event);
+    }
+
+    @Override
+    public Vec3 getPlayerEyePosition(EntityPlayer player) {
+        return player.getPosition(1.0f);
     }
 }

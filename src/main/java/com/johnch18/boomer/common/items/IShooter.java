@@ -3,9 +3,11 @@ package com.johnch18.boomer.common.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public interface IShooter<T extends IAmmo> {
 
@@ -20,8 +22,14 @@ public interface IShooter<T extends IAmmo> {
 
     int getCooldown();
 
+    AxisAlignedBB getHitbox(Vec3 vec);
+
     AxisAlignedBB getHitbox(double x, double y, double z);
 
     float getAttackDamage();
+
+    Random getRand();
+
+    double getDoubleInRange(double x, double y);
 
 }

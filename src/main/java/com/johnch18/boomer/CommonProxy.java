@@ -1,6 +1,8 @@
 package com.johnch18.boomer;
 
 import cpw.mods.fml.common.event.*;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.Vec3;
 
 public class CommonProxy {
 
@@ -41,4 +43,9 @@ public class CommonProxy {
     public void serverStopped(FMLServerStoppedEvent event) {
 
     }
+
+    public Vec3 getPlayerEyePosition(EntityPlayer player) {
+        return player.getPosition(1.0f).addVector(0.0f, 1.62f, 0.0f);
+    }
+
 }

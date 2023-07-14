@@ -7,16 +7,21 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Random;
 
 public abstract class Shooter<T extends IAmmo> extends BoomerItem implements IShooter<T> {
 
     private static final String TAG_FIRE_COOLDOWN = "fire";
 
     private final T ammo;
+
+    private final Random rand = new Random();
 
     public Shooter(T ammo) {
         super();
@@ -100,5 +105,20 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         checkNBT(stack);
         int cooldown = stack.getTagCompound().getInteger(TAG_FIRE_COOLDOWN);
         lore.add(String.format("Cooldown: %d / %d", cooldown, getCooldown()));
+    }
+
+    @Override
+    public AxisAlignedBB getHitbox(Vec3 vec) {
+        return getHitbox(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
+    @Override
+    public Random getRand() {
+        return rand;
+    }
+
+    @Override
+    public double getDoubleInRange(double x, double y) {
+        return x + (y - x) * getRand().nextDouble();
     }
 }
