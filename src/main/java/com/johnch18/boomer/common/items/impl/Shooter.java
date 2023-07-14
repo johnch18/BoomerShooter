@@ -29,16 +29,10 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         this.ammo = ammo;
     }
 
-    private static boolean checkNBT(ItemStack stack) {
-        if (!stack.hasTagCompound()) {
-            stack.setTagCompound(new NBTTagCompound());
-        }
-        NBTTagCompound comp = stack.getTagCompound();
-        if (!comp.hasKey(TAG_FIRE_COOLDOWN)) {
-            comp.setInteger(TAG_FIRE_COOLDOWN, 0);
-        }
-        int cooldown = comp.getInteger(TAG_FIRE_COOLDOWN);
-        return cooldown > 0;
+    @Nonnull
+    @Override
+    public T getAmmoType() {
+        return ammo;
     }
 
     @Override
@@ -67,6 +61,37 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     }
 
     @Override
+    public AxisAlignedBB getHitbox(Vec3 vec) {
+        return getHitbox(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
+    @Override
+    public Random getRand() {
+        return rand;
+    }
+
+    @Override
+    public double getDoubleInRange(double x, double y) {
+        return x + (y - x) * getRand().nextDouble();
+    }
+
+    @Override
+    public Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d) {
+        float pitch = (float) (player.rotationPitch + getDoubleInRange(-d, d));
+        float yaw = (float) (player.rotationYaw + getDoubleInRange(-d, d));
+        float f = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float) Math.PI);
+        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f3 = MathHelper.sin(-pitch * 0.017453292F);
+        return Vec3.createVectorHelper(f1 * f2, f3, f * f2);
+    }
+
+    @Override
+    public int getSpriteNumber() {
+        return 0;
+    }
+
+    @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
         if (!playerCanFire(stack, player)) {
             return stack;
@@ -78,12 +103,6 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         player.inventory.markDirty();
         player.inventoryContainer.detectAndSendChanges();
         return stack;
-    }
-
-    @Nonnull
-    @Override
-    public T getAmmoType() {
-        return ammo;
     }
 
     @Override
@@ -108,29 +127,15 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         lore.add(String.format("Cooldown: %d / %d", cooldown, getCooldown()));
     }
 
-    @Override
-    public AxisAlignedBB getHitbox(Vec3 vec) {
-        return getHitbox(vec.xCoord, vec.yCoord, vec.zCoord);
-    }
-
-    @Override
-    public Random getRand() {
-        return rand;
-    }
-
-    @Override
-    public double getDoubleInRange(double x, double y) {
-        return x + (y - x) * getRand().nextDouble();
-    }
-
-    @Override
-    public Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d) {
-        float pitch = (float) (player.rotationPitch + getDoubleInRange(-d, d));
-        float yaw = (float) (player.rotationYaw + getDoubleInRange(-d, d));
-        float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
-        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
-        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
-        float f3 = MathHelper.sin(-pitch * 0.017453292F);
-        return Vec3.createVectorHelper(f1 * f2, f3, f * f2);
+    private static boolean checkNBT(ItemStack stack) {
+        if (!stack.hasTagCompound()) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        NBTTagCompound comp = stack.getTagCompound();
+        if (!comp.hasKey(TAG_FIRE_COOLDOWN)) {
+            comp.setInteger(TAG_FIRE_COOLDOWN, 0);
+        }
+        int cooldown = comp.getInteger(TAG_FIRE_COOLDOWN);
+        return cooldown > 0;
     }
 }
