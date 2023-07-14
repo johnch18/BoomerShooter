@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
@@ -120,5 +121,16 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     @Override
     public double getDoubleInRange(double x, double y) {
         return x + (y - x) * getRand().nextDouble();
+    }
+
+    @Override
+    public Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d) {
+        float pitch = (float) (player.rotationPitch + getDoubleInRange(-d, d));
+        float yaw = (float) (player.rotationYaw + getDoubleInRange(-d, d));
+        float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f3 = MathHelper.sin(-pitch * 0.017453292F);
+        return Vec3.createVectorHelper(f1 * f2, f3, f * f2);
     }
 }

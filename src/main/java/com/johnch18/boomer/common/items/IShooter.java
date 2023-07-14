@@ -32,4 +32,6 @@ public interface IShooter<T extends IAmmo> {
 
     double getDoubleInRange(double x, double y);
 
+    Vec3 getRandomMotionFromPlayerLook(EntityPlayer player, float d);
+
 }

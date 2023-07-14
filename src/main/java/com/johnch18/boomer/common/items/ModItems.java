@@ -1,7 +1,6 @@
 package com.johnch18.boomer.common.items;
 
-import com.johnch18.boomer.common.items.impl.TestAmmo;
-import com.johnch18.boomer.common.items.impl.TestGun;
+import com.johnch18.boomer.common.items.impl.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nonnull;
@@ -22,11 +21,11 @@ public class ModItems {
     }
 
     public void registerItems() {
-        registerGun(TestGun.class, TestAmmo.class);
+        registerGun(Shotgun.class, ShotgunShell.class);
+        registerGun(SuperShotgun.class, ShotgunShell.class);
     }
 
     private IBoomerItem registerItem(IBoomerItem item) {
-        System.out.println(item.getID());
         if (contains(item.getID())) {
             return items.get(item.getID());
         }

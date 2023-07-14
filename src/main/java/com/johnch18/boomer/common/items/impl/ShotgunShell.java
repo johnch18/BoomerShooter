@@ -2,15 +2,10 @@ package com.johnch18.boomer.common.items.impl;
 
 import javax.annotation.Nonnull;
 
-public class TestAmmo extends Ammo {
-
-    public TestAmmo() {
-
-    }
-
+public class ShotgunShell extends Ammo {
     @Override
     public int getMaxCapacity() {
-        return 16;
+        return 40;
     }
 
     @Override
@@ -21,7 +16,6 @@ public class TestAmmo extends Ammo {
     @Nonnull
     @Override
     public String getID() {
-        return "test_ammo";
+        return "shotgun_shell";
     }
-
 }
