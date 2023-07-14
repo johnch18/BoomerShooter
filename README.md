@@ -9,5 +9,6 @@ Any franchise made before half-life is fair game, but here are the ones I'm look
 - Duke Nukem 3D
 
 One thing to note is that if guns are too similar, I will either combine them together or only implement one.
+Melee is also fair game.
 
 Feel free to make suggestions in the issues, or use the anonymous [Google Form](https://forms.gle/M5jRUeKAgCvKvFCi7).
