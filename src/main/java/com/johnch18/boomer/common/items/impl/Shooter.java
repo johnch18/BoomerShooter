@@ -7,7 +7,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -68,12 +67,6 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
 
     @Nonnull
     @Override
-    public AxisAlignedBB getHitbox(final Vec3 vec) {
-        return getHitbox(vec.xCoord, vec.yCoord, vec.zCoord);
-    }
-
-    @Nonnull
-    @Override
     public Random getRand() {
         return rand;
     }
@@ -87,7 +80,7 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     @Override
     public Vec3 getRandomMotionFromPlayerLook(final EntityPlayer player, final double variance) {
         final double pitch = ((double) player.rotationPitch + getDoubleInRange(-variance, variance));
-        final double yaw =  ((double) player.rotationYaw + getDoubleInRange(-variance, variance));
+        final double yaw = ((double) player.rotationYaw + getDoubleInRange(-variance, variance));
         final float f = MathHelper.cos((float) (-yaw * 0.017453292 - Math.PI));
         final float f1 = MathHelper.sin((float) (-yaw * 0.017453292 - Math.PI));
         final float f2 = -MathHelper.cos((float) (-pitch * 0.017453292));

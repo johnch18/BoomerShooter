@@ -45,22 +45,6 @@ public interface IShooter<T extends IAmmo> {
     int getCooldown();
 
     /**
-     * @param vec Vector of dimensions
-     * @return Hitbox
-     */
-    @Nonnull
-    AxisAlignedBB getHitbox(Vec3 vec);
-
-    /**
-     * @param x x range
-     * @param y y range
-     * @param z z range
-     * @return Hitbox
-     */
-    @Nonnull
-    AxisAlignedBB getHitbox(double x, double y, double z);
-
-    /**
      * @return Amount of damage to do this instance
      */
     float getAttackDamage();

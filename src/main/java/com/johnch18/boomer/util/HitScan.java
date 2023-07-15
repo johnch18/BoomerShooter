@@ -1,5 +1,6 @@
 package com.johnch18.boomer.util;
 
+import com.johnch18.boomer.common.items.IHitscanShooter;
 import com.johnch18.boomer.common.items.IShooter;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -17,7 +18,7 @@ import java.util.List;
 public class HitScan {
 
     private static final float substep = 0.25f;
-    private final IShooter<?> shooter;
+    private final IHitscanShooter<?> shooter;
     private final Vec3 base, look;
     private final EntityPlayer player;
     private final World world;
@@ -32,11 +33,11 @@ public class HitScan {
      * @param dY Bump to vector y
      * @param dZ Bump to vector z
      */
-    public HitScan(final IShooter<?> shooter, final EntityPlayer player, final World world, final double dX, final double dY, final double dZ) {
+    public HitScan(final IHitscanShooter<?> shooter, final EntityPlayer player, final World world, final double dX, final double dY, final double dZ) {
         this(shooter, world, player, player.getPosition(1.0f).addVector(0.0, world.isRemote ? 0.0 : 1.62, 0.0), player.getLook(1.0f).addVector(dX, dY, dZ));
     }
 
-    private HitScan(final IShooter<?> shooter, final World world, final EntityPlayer player, final Vec3 base, final Vec3 look) {
+    private HitScan(final IHitscanShooter<?> shooter, final World world, final EntityPlayer player, final Vec3 base, final Vec3 look) {
         this.shooter = shooter;
         this.world = world;
         this.player = player;

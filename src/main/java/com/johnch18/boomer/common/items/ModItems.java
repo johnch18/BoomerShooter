@@ -1,5 +1,9 @@
 package com.johnch18.boomer.common.items;
 
+import com.johnch18.boomer.common.items.impl.BFGTracer;
+import com.johnch18.boomer.common.items.impl.BoomerItem;
+import com.johnch18.boomer.common.items.impl.doom.ammo.BFGAmmo;
+import com.johnch18.boomer.common.items.impl.doom.weapons.BFG9000;
 import com.johnch18.boomer.common.items.impl.doom.weapons.Shotgun;
 import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
 import com.johnch18.boomer.common.items.impl.doom.weapons.SuperShotgun;
@@ -34,6 +38,8 @@ public final class ModItems {
     public void registerItems() {
         registerGun(Shotgun.class, ShotgunShell.class);
         registerGun(SuperShotgun.class, ShotgunShell.class);
+        registerGun(BFG9000.class, BFGAmmo.class);
+        registerItem(new BFGTracer());
     }
 
     private IBoomerItem registerItem(final IBoomerItem item) {

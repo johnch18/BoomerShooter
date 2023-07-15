@@ -1,5 +1,6 @@
 package com.johnch18.boomer.common.items.impl.doom.weapons;
 
+import com.johnch18.boomer.common.items.impl.HitscanShooter;
 import com.johnch18.boomer.common.items.impl.Shooter;
 import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
 import com.johnch18.boomer.util.HitScan;
@@ -14,7 +15,7 @@ import javax.annotation.Nonnull;
 /**
  *
  */
-public class Shotgun extends Shooter<ShotgunShell> {
+public class Shotgun extends HitscanShooter<ShotgunShell> {
 
     /**
      * @param ammo Ammo to use
@@ -61,7 +62,9 @@ public class Shotgun extends Shooter<ShotgunShell> {
         return (float) getDoubleInRange(10.0, 20.0);
     }
 
-    HitScan getHitScan(final EntityPlayer player, final World world) {
+    @Nonnull
+    @Override
+    public HitScan getHitScan(final EntityPlayer player, final World world) {
         final Vec3 adj = getRandomMotionFromPlayerLook(player, 15.0);
         return new HitScan(this, player, world, adj.xCoord, adj.yCoord, adj.zCoord);
     }

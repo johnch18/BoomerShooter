@@ -1,3 +1,6 @@
 item.shotgun_shell.name=Shotgun Shells
 item.shotgun.name=Shotgun
 item.super_shotgun.name=Super Shotgun
+item.bfg_9000.name=BFG-9000
+item.bfg_cell.name=BFG Cell
+itemGroup.boomer=Boomer Shooter

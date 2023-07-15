@@ -12,10 +12,16 @@ import javax.annotation.Nonnull;
  */
 public abstract class BoomerItem extends Item implements IBoomerItem {
 
-    BoomerItem() {
-        setCreativeTab(BoomerMod.tab);
+    BoomerItem(final boolean add) {
+        if (add) {
+            setCreativeTab(BoomerMod.tab);
+        }
         setUnlocalizedName(getID());
         setTextureName(getFullID());
+    }
+
+    BoomerItem() {
+        this(true);
     }
 
     @Nonnull
