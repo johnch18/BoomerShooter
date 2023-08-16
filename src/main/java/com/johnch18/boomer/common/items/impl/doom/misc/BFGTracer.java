@@ -1,22 +1,25 @@
-package com.johnch18.boomer.common.items.impl;
+package com.johnch18.boomer.common.items.impl.doom.misc;
+
 
 import com.johnch18.boomer.Tags;
+import com.johnch18.boomer.common.items.impl.BoomerItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
 
 import javax.annotation.Nonnull;
+
 
 /**
  *
  */
 public class BFGTracer extends BoomerItem {
 
-    private static IIcon icon;
-
     /**
      *
      */
     public static final String BFG_TRACER = "bfg_tracer";
+
+    private static IIcon icon;
 
     /**
      *
@@ -40,4 +43,5 @@ public class BFGTracer extends BoomerItem {
     public void registerIcons(final IIconRegister register) {
         icon = register.registerIcon(Tags.MODID + ":" + BFG_TRACER);
     }
+
 }

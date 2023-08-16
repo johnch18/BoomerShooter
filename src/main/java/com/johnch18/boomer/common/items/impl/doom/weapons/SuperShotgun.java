@@ -1,7 +1,8 @@
 package com.johnch18.boomer.common.items.impl.doom.weapons;
 
+
+import com.johnch18.boomer.common.BoomerTab;
 import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
-import com.johnch18.boomer.util.BoomerTab;
 import com.johnch18.boomer.util.HitScan;
 import com.johnch18.boomer.util.HitScanManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +10,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+
 
 /**
  *
@@ -49,4 +51,5 @@ public class SuperShotgun extends Shotgun {
         final Vec3 adj = getRandomMotionFromPlayerLook(player, 20);
         return new HitScan(this, player, world, adj.xCoord, adj.yCoord, adj.zCoord);
     }
+
 }

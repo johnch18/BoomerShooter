@@ -1,22 +1,22 @@
 package com.johnch18.boomer.common.items.impl.doom.weapons;
 
+
 import com.johnch18.boomer.common.items.impl.ProjectileShooter;
-import com.johnch18.boomer.common.items.impl.Shooter;
 import com.johnch18.boomer.common.items.impl.doom.ammo.BFGAmmo;
 import com.johnch18.boomer.render.IBoomerProjectile;
 import com.johnch18.boomer.render.impl.BFGProjectile;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+
 
 /**
  *
  */
 public class BFG9000 extends ProjectileShooter<BFGAmmo> {
+
     /**
      * @param ammo Ammo to use
      */
@@ -54,4 +54,5 @@ public class BFG9000 extends ProjectileShooter<BFGAmmo> {
     public IBoomerProjectile getProjectile(final EntityPlayer player, final World world) {
         return new BFGProjectile(this, player, world);
     }
+
 }

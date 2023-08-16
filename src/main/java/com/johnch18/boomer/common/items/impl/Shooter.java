@@ -1,5 +1,6 @@
 package com.johnch18.boomer.common.items.impl;
 
+
 import com.johnch18.boomer.common.items.IAmmo;
 import com.johnch18.boomer.common.items.IShooter;
 import net.minecraft.entity.Entity;
@@ -14,6 +15,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
+
 
 /**
  * @param <T> Ammo type
@@ -37,7 +39,7 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
 
     @Nonnull
     @Override
-    public T getAmmoType() {
+    public T getAmmo() {
         return ammo;
     }
 
@@ -85,7 +87,7 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         final float f1 = MathHelper.sin((float) (-yaw * 0.017453292 - Math.PI));
         final float f2 = -MathHelper.cos((float) (-pitch * 0.017453292));
         final float f3 = MathHelper.sin((float) (-pitch * 0.017453292));
-        return Vec3.createVectorHelper((double) (f1 * f2), (double) f3, (double) (f * f2));
+        return Vec3.createVectorHelper(f1 * f2, f3, f * f2);
     }
 
     @Override
@@ -140,4 +142,5 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
         final int cooldown = comp.getInteger(TAG_FIRE_COOLDOWN);
         return 0 < cooldown;
     }
+
 }

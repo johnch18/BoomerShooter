@@ -1,7 +1,9 @@
 package com.johnch18.boomer.common.items;
 
+
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+
 
 /**
  *
@@ -29,4 +31,5 @@ public interface IAmmo extends IBoomerItem {
      * @return is same?
      */
     boolean isCorrectType(Item other);
+
 }

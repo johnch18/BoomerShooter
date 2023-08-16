@@ -1,12 +1,27 @@
 package com.johnch18.boomer;
 
+
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 import java.io.File;
 
+
 @SuppressWarnings("ALL")
 public class Config {
+
+    private static class Defaults {
+
+        public static final String greeting = "Hello World";
+
+    }
+
+
+    private static class Categories {
+
+        public static final String general = "general";
+
+    }
 
     public static String greeting = Defaults.greeting;
 
@@ -22,11 +37,4 @@ public class Config {
         }
     }
 
-    private static class Defaults {
-        public static final String greeting = "Hello World";
-    }
-
-    private static class Categories {
-        public static final String general = "general";
-    }
 }

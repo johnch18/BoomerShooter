@@ -1,11 +1,11 @@
 package com.johnch18.boomer.common.items;
 
-import com.johnch18.boomer.common.items.impl.BFGTracer;
-import com.johnch18.boomer.common.items.impl.BoomerItem;
+
+import com.johnch18.boomer.common.items.impl.doom.misc.BFGTracer;
 import com.johnch18.boomer.common.items.impl.doom.ammo.BFGAmmo;
+import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
 import com.johnch18.boomer.common.items.impl.doom.weapons.BFG9000;
 import com.johnch18.boomer.common.items.impl.doom.weapons.Shotgun;
-import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
 import com.johnch18.boomer.common.items.impl.doom.weapons.SuperShotgun;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 
 /**
  *
@@ -42,38 +43,6 @@ public final class ModItems {
         registerItem(new BFGTracer());
     }
 
-    private IBoomerItem registerItem(final IBoomerItem item) {
-        if (contains(item.getID())) {
-            return items.get(item.getID());
-        }
-        items.put(item.getID(), item);
-        GameRegistry.registerItem(item.asItem(), item.getID());
-        return items.get(item.getID());
-    }
-
-    @SuppressWarnings("ProhibitedExceptionThrown")
-    private void registerGun(final Class<? extends IShooter<?>> gunClass, final Class<? extends IAmmo> ammoClass) {
-        final IBoomerItem gAmmo;
-        try {
-            final Constructor<?> constructor = ammoClass.getConstructor();
-            gAmmo = registerItem((IBoomerItem) constructor.newInstance());
-        } catch (final NoSuchMethodException | InvocationTargetException | InstantiationException |
-                       IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        if (!(gAmmo instanceof IAmmo)) {
-            throw new RuntimeException("Invalid ammo");
-        }
-        final IAmmo ammo = (IAmmo) gAmmo;
-        try {
-            final Constructor<?> constructor = gunClass.getConstructor(ammoClass);
-            registerItem((IBoomerItem) constructor.newInstance(ammo));
-        } catch (final NoSuchMethodException | InvocationTargetException | InstantiationException |
-                       IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * @return item map
      */
@@ -96,6 +65,36 @@ public final class ModItems {
 
     private boolean contains(final String itemID) {
         return items.containsKey(itemID);
+    }
+
+    private IBoomerItem registerItem(final IBoomerItem item) {
+        if (contains(item.getID())) {
+            return items.get(item.getID());
+        }
+        items.put(item.getID(), item);
+        GameRegistry.registerItem(item.asItem(), item.getID());
+        return items.get(item.getID());
+    }
+
+    @SuppressWarnings("ProhibitedExceptionThrown")
+    private void registerGun(final Class<? extends IShooter<?>> gunClass, final Class<? extends IAmmo> ammoClass) {
+        final IBoomerItem gAmmo;
+        try {
+            final Constructor<?> constructor = ammoClass.getConstructor();
+            gAmmo = registerItem((IBoomerItem) constructor.newInstance());
+        } catch (final NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        if (!(gAmmo instanceof IAmmo)) {
+            throw new RuntimeException("Invalid ammo");
+        }
+        final IAmmo ammo = (IAmmo) gAmmo;
+        try {
+            final Constructor<?> constructor = gunClass.getConstructor(ammoClass);
+            registerItem((IBoomerItem) constructor.newInstance(ammo));
+        } catch (final NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

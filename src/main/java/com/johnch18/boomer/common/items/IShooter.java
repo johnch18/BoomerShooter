@@ -1,13 +1,14 @@
 package com.johnch18.boomer.common.items;
 
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+
 
 /**
  * @param <T>
@@ -19,10 +20,10 @@ public interface IShooter<T extends IAmmo> {
      */
     @SuppressWarnings("unused")
     @Nonnull
-    T getAmmoType();
+    T getAmmo();
 
     /**
-     * @param stack Stack to check
+     * @param stack  Stack to check
      * @param player Player to check
      * @return Can fire?
      */
@@ -30,7 +31,7 @@ public interface IShooter<T extends IAmmo> {
 
     /**
      * @param player Player firing
-     * @param world World fired in
+     * @param world  World fired in
      */
     void fireGun(EntityPlayer player, World world);
 
@@ -57,14 +58,14 @@ public interface IShooter<T extends IAmmo> {
     Random getRand();
 
     /**
-     * @param low lower bound
+     * @param low  lower bound
      * @param high upper bound
      * @return Random double
      */
     double getDoubleInRange(double low, double high);
 
     /**
-     * @param player Player to work from
+     * @param player   Player to work from
      * @param variance Amount of randomness to pitch and yaw
      * @return Random vector
      */

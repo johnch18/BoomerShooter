@@ -1,5 +1,6 @@
 package com.johnch18.boomer.util;
 
+
 import com.johnch18.boomer.common.items.IHitscanShooter;
 import com.johnch18.boomer.common.items.IShooter;
 import net.minecraft.block.Block;
@@ -12,26 +13,33 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+
 /**
  *
  */
 public class HitScan {
 
     private static final float substep = 0.25f;
+
     private final IHitscanShooter<?> shooter;
+
     private final Vec3 base, look;
+
     private final EntityPlayer player;
+
     private final World world;
+
     private int count;
+
     private boolean dead;
 
     /**
      * @param shooter Gun firing
-     * @param player Player firing
-     * @param world World fired in
-     * @param dX Bump to vector x
-     * @param dY Bump to vector y
-     * @param dZ Bump to vector z
+     * @param player  Player firing
+     * @param world   World fired in
+     * @param dX      Bump to vector x
+     * @param dY      Bump to vector y
+     * @param dZ      Bump to vector z
      */
     public HitScan(final IHitscanShooter<?> shooter, final EntityPlayer player, final World world, final double dX, final double dY, final double dZ) {
         this(shooter, world, player, player.getPosition(1.0f).addVector(0.0, world.isRemote ? 0.0 : 1.62, 0.0), player.getLook(1.0f).addVector(dX, dY, dZ));
@@ -55,14 +63,6 @@ public class HitScan {
         return dead;
     }
 
-    private void step() {
-        count += 1;
-    }
-
-    Vec3 getRay() {
-        return Vec3.createVectorHelper(look.xCoord * substep * count, look.yCoord * substep * count, look.zCoord * substep * count);
-    }
-
     @SuppressWarnings("rawtypes")
     void singleMarch() {
         final Vec3 vec3 = getRay().addVector(base.xCoord, base.yCoord, base.zCoord);
@@ -84,6 +84,14 @@ public class HitScan {
             return;
         }
         step();
+    }
+
+    Vec3 getRay() {
+        return Vec3.createVectorHelper(look.xCoord * substep * count, look.yCoord * substep * count, look.zCoord * substep * count);
+    }
+
+    private void step() {
+        count += 1;
     }
 
 }

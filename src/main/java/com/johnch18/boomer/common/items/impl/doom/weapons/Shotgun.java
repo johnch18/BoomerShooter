@@ -1,7 +1,7 @@
 package com.johnch18.boomer.common.items.impl.doom.weapons;
 
+
 import com.johnch18.boomer.common.items.impl.HitscanShooter;
-import com.johnch18.boomer.common.items.impl.Shooter;
 import com.johnch18.boomer.common.items.impl.doom.ammo.ShotgunShell;
 import com.johnch18.boomer.util.HitScan;
 import com.johnch18.boomer.util.HitScanManager;
@@ -11,6 +11,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+
 
 /**
  *
@@ -50,16 +51,16 @@ public class Shotgun extends HitscanShooter<ShotgunShell> {
         return 10;
     }
 
+    @Override
+    public float getAttackDamage() {
+        return (float) getDoubleInRange(10.0, 20.0);
+    }
+
     @Nonnull
     @Override
     public AxisAlignedBB getHitbox(final double x, final double y, final double z) {
         final double width = 0.33;
         return AxisAlignedBB.getBoundingBox(x - width, y - width, z - width, x + width, y + width, z + width);
-    }
-
-    @Override
-    public float getAttackDamage() {
-        return (float) getDoubleInRange(10.0, 20.0);
     }
 
     @Nonnull
