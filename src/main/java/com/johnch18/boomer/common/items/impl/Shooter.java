@@ -3,6 +3,7 @@ package com.johnch18.boomer.common.items.impl;
 
 import com.johnch18.boomer.common.items.IAmmo;
 import com.johnch18.boomer.common.items.IShooter;
+import com.johnch18.boomer.render.CenteredItemRender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -11,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -35,6 +37,7 @@ public abstract class Shooter<T extends IAmmo> extends BoomerItem implements ISh
     public Shooter(final T ammo) {
         super();
         this.ammo = ammo;
+        MinecraftForgeClient.registerItemRenderer(this, new CenteredItemRender());
     }
 
     @Nonnull

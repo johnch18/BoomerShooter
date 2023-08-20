@@ -4,6 +4,7 @@ package com.johnch18.boomer;
 import cpw.mods.fml.common.event.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 
 @SuppressWarnings("ALL")
